@@ -1,8 +1,8 @@
-\# Hostel Management System
+# Hostel Management System
 
 
 
-\## Technology Stack
+## Technology Stack
 
 
 
@@ -22,11 +22,11 @@
 
 
 
-\## Features Implemented
+## Features Implemented
 
 
 
-\### Day 1
+### Day 1
 
 
 
@@ -50,11 +50,11 @@
 
 
 
-\## Upcoming Modules
+## Upcoming Modules
 
 
 
-\### Day 2
+### Day 2
 
 
 
@@ -66,7 +66,7 @@
 
 
 
-\### Future Modules
+### Future Modules
 
 
 
@@ -88,7 +88,7 @@
 
 
 
-\## Project Status
+## Project Status
 
 
 
