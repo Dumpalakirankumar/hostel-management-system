@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import io.jsonwebtoken.Claims;
+
 @Component
 public class JwtUtil {
 
@@ -34,5 +36,24 @@ public class JwtUtil {
                                 + EXPIRATION))
                 .signWith(KEY)
                 .compact();
+    }
+    public String extractUsername(String token) {
+
+        Claims claims = Jwts.parser()
+                .verifyWith((javax.crypto.SecretKey) KEY)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return claims.getSubject();
+    }
+
+    public boolean validateToken(String token,
+                                 String username) {
+
+        String extractedUsername =
+                extractUsername(token);
+
+        return extractedUsername.equals(username);
     }
 }
