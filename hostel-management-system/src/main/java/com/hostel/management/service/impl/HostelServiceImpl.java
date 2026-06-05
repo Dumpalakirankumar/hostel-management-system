@@ -11,6 +11,12 @@ import com.hostel.management.entity.Hostel;
 import com.hostel.management.repository.HostelRepository;
 import com.hostel.management.service.HostelService;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 @Service
 public class HostelServiceImpl implements HostelService {
 
@@ -72,5 +78,53 @@ public class HostelServiceImpl implements HostelService {
                         hostel.getContactNumber(),
                         hostel.getEmail()))
                 .collect(Collectors.toList());
+    }
+    
+    @Override
+    public Page<HostelResponseDTO> getAllHostels(
+            int page,
+            int size) {
+
+        Pageable pageable =
+                PageRequest.of(page, size);
+
+        Page<Hostel> hostelPage =
+                hostelRepository.findAll(pageable);
+
+        List<HostelResponseDTO> hostelDTOs =
+                hostelPage.getContent()
+                        .stream()
+                        .map(hostel -> new HostelResponseDTO(
+                                hostel.getHostelId(),
+                                hostel.getHostelName(),
+                                hostel.getAddress(),
+                                hostel.getCity(),
+                                hostel.getState(),
+                                hostel.getPincode(),
+                                hostel.getContactNumber(),
+                                hostel.getEmail()))
+                        .toList();
+
+        return new PageImpl<>(
+                hostelDTOs,
+                pageable,
+                hostelPage.getTotalElements());
+    }
+    @Override
+    public List<HostelResponseDTO> getHostelsByCity(
+            String city) {
+
+        return hostelRepository.findByCity(city)
+                .stream()
+                .map(hostel -> new HostelResponseDTO(
+                        hostel.getHostelId(),
+                        hostel.getHostelName(),
+                        hostel.getAddress(),
+                        hostel.getCity(),
+                        hostel.getState(),
+                        hostel.getPincode(),
+                        hostel.getContactNumber(),
+                        hostel.getEmail()))
+                .toList();
     }
 }

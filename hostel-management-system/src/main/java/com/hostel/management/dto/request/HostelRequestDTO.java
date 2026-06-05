@@ -1,13 +1,19 @@
 package com.hostel.management.dto.request;
 
-public class HostelRequestDTO {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
+public class HostelRequestDTO {
+	@NotBlank(message = "Hostel name is required")
     private String hostelName;
+	@NotBlank(message = "Address is required")
     private String address;
+	@NotBlank(message = "City is required")
     private String city;
     private String state;
     private String pincode;
     private String contactNumber;
+    @Email(message = "Invalid email format")
     private String email;
 
     public HostelRequestDTO() {

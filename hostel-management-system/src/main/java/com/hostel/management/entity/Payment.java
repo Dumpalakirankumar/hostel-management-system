@@ -2,11 +2,13 @@ package com.hostel.management.entity;
 
 import java.time.LocalDate;
 
+import com.hostel.management.audit.BaseEntity;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TBL_PAYMENT")
-public class Payment {
+public class Payment extends BaseEntity {
 
     @Id
     @SequenceGenerator(

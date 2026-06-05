@@ -1,26 +1,31 @@
 package com.hostel.management.exception;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<?> handleBusinessException(
-            BusinessException ex) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
 
-        return ResponseEntity.badRequest()
-                .body(ex.getMessage());
-    }
+        Map<String, String> errors = new HashMap<>();
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handleNotFound(
-            ResourceNotFoundException ex) {
+        ex.getBindingResult()
+                .getFieldErrors()
+                .forEach(error ->
+                        errors.put(
+                                error.getField(),
+                                error.getDefaultMessage()));
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(ex.getMessage());
+        return errors;
     }
 }

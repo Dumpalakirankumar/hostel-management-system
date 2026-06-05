@@ -2,9 +2,11 @@ package com.hostel.management.entity;
 
 import jakarta.persistence.*;
 
+import com.hostel.management.audit.BaseEntity;
+
 @Entity
 @Table(name = "TBL_HOSTEL")
-public class Hostel {
+public class Hostel extends BaseEntity{
 
     @Id
     @SequenceGenerator(

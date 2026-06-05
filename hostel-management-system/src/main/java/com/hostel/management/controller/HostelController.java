@@ -1,7 +1,10 @@
 package com.hostel.management.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +25,11 @@ public class HostelController {
     }
 
     @PostMapping
-    public ResponseEntity<HostelResponseDTO>
-    createHostel(
-            @RequestBody HostelRequestDTO requestDTO) {
+    public ResponseEntity<HostelResponseDTO> createHostel(
+            @Valid @RequestBody HostelRequestDTO requestDTO) {
 
         return ResponseEntity.ok(
-                hostelService.createHostel(
-                        requestDTO));
+                hostelService.createHostel(requestDTO));
     }
 
     @GetMapping
@@ -37,5 +38,25 @@ public class HostelController {
 
         return ResponseEntity.ok(
                 hostelService.getAllHostels());
+    }
+    
+    @GetMapping("/paged")
+    public ResponseEntity<Page<HostelResponseDTO>>
+    getAllHostelsPaged(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        return ResponseEntity.ok(
+                hostelService.getAllHostels(
+                        page,
+                        size));
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<HostelResponseDTO>>
+    getHostelsByCity(
+            @RequestParam String city) {
+
+        return ResponseEntity.ok(
+                hostelService.getHostelsByCity(city));
     }
 }
