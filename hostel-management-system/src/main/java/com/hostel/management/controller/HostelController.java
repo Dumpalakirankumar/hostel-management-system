@@ -59,4 +59,21 @@ public class HostelController {
         return ResponseEntity.ok(
                 hostelService.getHostelsByCity(city));
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<HostelResponseDTO> updateHostel(
+            @PathVariable Long id,
+            @Valid @RequestBody HostelRequestDTO requestDTO) {
+
+        return ResponseEntity.ok(
+                hostelService.updateHostel(id, requestDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteHostel(
+            @PathVariable Long id) {
+
+        hostelService.deleteHostel(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

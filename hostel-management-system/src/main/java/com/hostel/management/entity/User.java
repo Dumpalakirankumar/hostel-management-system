@@ -36,10 +36,14 @@ public class User {
             nullable = false,
             unique = true)
     private String mobileNumber;
+    
+    //@Column(nullable = false)
+    //private String role;
 
     // Default Constructor
     public User() {
     }
+    
 
     // Parameterized Constructor
     public User(Long userId,
@@ -93,4 +97,12 @@ public class User {
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
+    
+    /*public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }*/
 }
