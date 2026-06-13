@@ -38,4 +38,22 @@ public class ResidentController {
         return ResponseEntity.ok(
                 residentService.getAllResidents());
     }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<ResidentResponseDTO> updateResident(
+            @PathVariable Long id,
+            @RequestBody ResidentRequestDTO requestDTO) {
+
+        return ResponseEntity.ok(
+                residentService.updateResident(id, requestDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteResident(
+            @PathVariable Long id) {
+
+        residentService.deleteResident(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

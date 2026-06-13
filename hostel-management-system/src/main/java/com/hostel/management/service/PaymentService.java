@@ -11,4 +11,11 @@ public interface PaymentService {
             PaymentRequestDTO requestDTO);
 
     List<PaymentResponseDTO> getAllPayments();
+
+    PaymentResponseDTO updatePayment(
+            Long paymentId,
+            PaymentRequestDTO requestDTO);
+
+    void deletePayment(
+            Long paymentId);
 }

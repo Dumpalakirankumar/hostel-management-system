@@ -37,4 +37,22 @@ public class BedController {
         return ResponseEntity.ok(
                 bedService.getAllBeds());
     }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<BedResponseDTO> updateBed(
+            @PathVariable Long id,
+            @RequestBody BedRequestDTO requestDTO) {
+
+        return ResponseEntity.ok(
+                bedService.updateBed(id, requestDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBed(
+            @PathVariable Long id) {
+
+        bedService.deleteBed(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

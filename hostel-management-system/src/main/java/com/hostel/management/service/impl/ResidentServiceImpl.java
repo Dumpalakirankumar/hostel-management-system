@@ -89,4 +89,50 @@ public class ResidentServiceImpl implements ResidentService {
                         resident.getBed().getBedId()))
                 .collect(Collectors.toList());
     }
+    
+    @Override
+    public ResidentResponseDTO updateResident(
+            Long residentId,
+            ResidentRequestDTO requestDTO) {
+
+        Resident resident = residentRepository.findById(residentId)
+                .orElseThrow(() ->
+                        new RuntimeException("Resident not found"));
+
+        Bed bed = bedRepository.findById(
+                requestDTO.getBedId())
+                .orElseThrow(() ->
+                        new RuntimeException("Bed not found"));
+
+        resident.setFirstName(requestDTO.getFirstName());
+        resident.setLastName(requestDTO.getLastName());
+        resident.setMobileNumber(requestDTO.getMobileNumber());
+        resident.setEmail(requestDTO.getEmail());
+        resident.setGender(requestDTO.getGender());
+        resident.setAadhaarNumber(requestDTO.getAadhaarNumber());
+        resident.setBed(bed);
+
+        Resident updatedResident =
+                residentRepository.save(resident);
+
+        return new ResidentResponseDTO(
+                updatedResident.getResidentId(),
+                updatedResident.getFirstName(),
+                updatedResident.getLastName(),
+                updatedResident.getMobileNumber(),
+                updatedResident.getEmail(),
+                updatedResident.getGender(),
+                updatedResident.getAadhaarNumber(),
+                updatedResident.getBed().getBedId());
+    }
+
+    @Override
+    public void deleteResident(Long residentId) {
+
+        Resident resident = residentRepository.findById(residentId)
+                .orElseThrow(() ->
+                        new RuntimeException("Resident not found"));
+
+        residentRepository.delete(resident);
+    }
 }

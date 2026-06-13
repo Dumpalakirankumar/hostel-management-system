@@ -38,4 +38,22 @@ public class PaymentController {
         return ResponseEntity.ok(
                 paymentService.getAllPayments());
     }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<PaymentResponseDTO> updatePayment(
+            @PathVariable Long id,
+            @RequestBody PaymentRequestDTO requestDTO) {
+
+        return ResponseEntity.ok(
+                paymentService.updatePayment(id, requestDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePayment(
+            @PathVariable Long id) {
+
+        paymentService.deletePayment(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

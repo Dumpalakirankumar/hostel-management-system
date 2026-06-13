@@ -11,4 +11,11 @@ public interface ResidentService {
             ResidentRequestDTO requestDTO);
 
     List<ResidentResponseDTO> getAllResidents();
+
+    ResidentResponseDTO updateResident(
+            Long residentId,
+            ResidentRequestDTO requestDTO);
+
+    void deleteResident(
+            Long residentId);
 }

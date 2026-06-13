@@ -100,4 +100,56 @@ public class RoomServiceImpl implements RoomService {
                         room.getHostel().getHostelId()))
                 .collect(Collectors.toList());
     }
+    
+    @Override
+    public RoomResponseDTO updateRoom(
+            Long roomId,
+            RoomRequestDTO requestDTO) {
+
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() ->
+                        new RuntimeException("Room not found"));
+
+        Hostel hostel = hostelRepository.findById(
+                requestDTO.getHostelId())
+                .orElseThrow(() ->
+                        new RuntimeException("Hostel not found"));
+
+        room.setRoomNumber(requestDTO.getRoomNumber());
+        room.setRoomType(requestDTO.getRoomType());
+        room.setCapacity(requestDTO.getCapacity());
+
+        room.setAvailableBeds(
+                requestDTO.getCapacity() - room.getOccupiedBeds());
+
+        room.setMonthlyRent(requestDTO.getMonthlyRent());
+        room.setFloorNumber(requestDTO.getFloorNumber());
+        room.setStatus(requestDTO.getStatus());
+        room.setHostel(hostel);
+
+        Room updatedRoom = roomRepository.save(room);
+
+        return new RoomResponseDTO(
+                updatedRoom.getRoomId(),
+                updatedRoom.getRoomNumber(),
+                updatedRoom.getRoomType(),
+                updatedRoom.getCapacity(),
+                updatedRoom.getOccupiedBeds(),
+                updatedRoom.getAvailableBeds(),
+                updatedRoom.getMonthlyRent(),
+                updatedRoom.getFloorNumber(),
+                updatedRoom.getStatus(),
+                updatedRoom.getHostel().getHostelId()
+        );
+    }
+
+    @Override
+    public void deleteRoom(Long roomId) {
+
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() ->
+                        new RuntimeException("Room not found"));
+
+        roomRepository.delete(room);
+    }
 }

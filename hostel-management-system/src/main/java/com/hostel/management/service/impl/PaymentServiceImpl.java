@@ -81,4 +81,45 @@ public class PaymentServiceImpl implements PaymentService {
                         payment.getResident().getResidentId()))
                 .collect(Collectors.toList());
     }
+    
+    @Override
+    public PaymentResponseDTO updatePayment(
+            Long paymentId,
+            PaymentRequestDTO requestDTO) {
+
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() ->
+                        new RuntimeException("Payment not found"));
+
+        Resident resident = residentRepository.findById(
+                requestDTO.getResidentId())
+                .orElseThrow(() ->
+                        new RuntimeException("Resident not found"));
+
+        payment.setAmount(requestDTO.getAmount());
+        payment.setPaymentMode(requestDTO.getPaymentMode());
+        payment.setPaymentStatus(requestDTO.getPaymentStatus());
+        payment.setResident(resident);
+
+        Payment updatedPayment =
+                paymentRepository.save(payment);
+
+        return new PaymentResponseDTO(
+                updatedPayment.getPaymentId(),
+                updatedPayment.getAmount(),
+                updatedPayment.getPaymentDate(),
+                updatedPayment.getPaymentMode(),
+                updatedPayment.getPaymentStatus(),
+                updatedPayment.getResident().getResidentId());
+    }
+
+    @Override
+    public void deletePayment(Long paymentId) {
+
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() ->
+                        new RuntimeException("Payment not found"));
+
+        paymentRepository.delete(payment);
+    }
 }

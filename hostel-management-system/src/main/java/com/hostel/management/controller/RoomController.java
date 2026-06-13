@@ -38,4 +38,22 @@ public class RoomController {
         return ResponseEntity.ok(
                 roomService.getAllRooms());
     }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<RoomResponseDTO> updateRoom(
+            @PathVariable Long id,
+            @RequestBody RoomRequestDTO requestDTO) {
+
+        return ResponseEntity.ok(
+                roomService.updateRoom(id, requestDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRoom(
+            @PathVariable Long id) {
+
+        roomService.deleteRoom(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

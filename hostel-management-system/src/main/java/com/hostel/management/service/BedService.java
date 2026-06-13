@@ -11,4 +11,11 @@ public interface BedService {
             BedRequestDTO requestDTO);
 
     List<BedResponseDTO> getAllBeds();
+
+    BedResponseDTO updateBed(
+            Long bedId,
+            BedRequestDTO requestDTO);
+
+    void deleteBed(
+            Long bedId);
 }

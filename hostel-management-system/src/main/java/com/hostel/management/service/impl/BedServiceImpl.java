@@ -34,21 +34,15 @@ public class BedServiceImpl implements BedService {
         Room room = roomRepository.findById(
                 requestDTO.getRoomId())
                 .orElseThrow(() ->
-                        new RuntimeException(
-                                "Room not found"));
+                        new RuntimeException("Room not found"));
 
         Bed bed = new Bed();
 
-        bed.setBedNumber(
-                requestDTO.getBedNumber());
-
-        bed.setStatus(
-                requestDTO.getStatus());
-
+        bed.setBedNumber(requestDTO.getBedNumber());
+        bed.setStatus(requestDTO.getStatus());
         bed.setRoom(room);
 
-        Bed savedBed =
-                bedRepository.save(bed);
+        Bed savedBed = bedRepository.save(bed);
 
         return new BedResponseDTO(
                 savedBed.getBedId(),
@@ -68,5 +62,42 @@ public class BedServiceImpl implements BedService {
                         bed.getStatus(),
                         bed.getRoom().getRoomId()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public BedResponseDTO updateBed(
+            Long bedId,
+            BedRequestDTO requestDTO) {
+
+        Bed bed = bedRepository.findById(bedId)
+                .orElseThrow(() ->
+                        new RuntimeException("Bed not found"));
+
+        Room room = roomRepository.findById(
+                requestDTO.getRoomId())
+                .orElseThrow(() ->
+                        new RuntimeException("Room not found"));
+
+        bed.setBedNumber(requestDTO.getBedNumber());
+        bed.setStatus(requestDTO.getStatus());
+        bed.setRoom(room);
+
+        Bed updatedBed = bedRepository.save(bed);
+
+        return new BedResponseDTO(
+                updatedBed.getBedId(),
+                updatedBed.getBedNumber(),
+                updatedBed.getStatus(),
+                updatedBed.getRoom().getRoomId());
+    }
+
+    @Override
+    public void deleteBed(Long bedId) {
+
+        Bed bed = bedRepository.findById(bedId)
+                .orElseThrow(() ->
+                        new RuntimeException("Bed not found"));
+
+        bedRepository.delete(bed);
     }
 }

@@ -11,4 +11,11 @@ public interface RoomService {
             RoomRequestDTO requestDTO);
 
     List<RoomResponseDTO> getAllRooms();
+
+    RoomResponseDTO updateRoom(
+            Long roomId,
+            RoomRequestDTO requestDTO);
+
+    void deleteRoom(
+            Long roomId);
 }
